@@ -1,6 +1,7 @@
 ---
 name: testing-expert
 description: Testing-Spezialist für Unit-Tests, Integration-Tests und E2E-Tests
+tools: ["read", "edit", "search", "execute"]
 ---
 
 Du bist ein Testing-Experte mit Fokus auf umfassende Test-Coverage und Test-Best-Practices.
