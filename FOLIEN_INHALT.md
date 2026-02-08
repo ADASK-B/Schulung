@@ -2,6 +2,39 @@
 
 ---
 
+## Folie 0: Inhaltsverzeichnis
+
+### 📋 Agenda - 60 Minuten Praxis-Workshop
+
+#### 1. Ziel & Motivation
+*Trumpf-Beispiel: Der Unterschied zwischen generischem Code und professionellem Output durch richtige Copilot-Nutzung*
+
+#### 2. Voraussetzungen & Setup-Check
+*Technische Voraussetzungen prüfen und sicherstellen, dass alle startklar sind*
+
+#### 3. Grundlagen Showcase
+*Überblick über alle Copilot-Features: Autocomplete, Chat, Plan, Agent, Settings & Tools*
+
+#### 4. Grenzen & Best Practices
+*Token-Limits verstehen, gute Prompts schreiben und instructions richtig nutzen*
+
+#### 5. Plan Mode
+*Strukturiertes Vorgehen für neue Features mit Akzeptanzkriterien und Tests als Sparring Partner*
+
+#### 6. Agent Mode
+*Autonome Entwicklung mit automatischer Test-Ausführung und Fehlerkorrektur*
+
+#### 7. Live Demo - Webseite erstellen
+*Hands-on: Trumpf-Webseite mit Plan & Agent Mode live entwickeln (15 Minuten Kern-Demo)*
+
+#### 8. Erweiterung - Instructions & Templates
+*Professionelles Setup: Instructions, Skills, Custom Agents und Delegation für Teams*
+
+#### 9. Fragen & Wrap-up
+*Q&A, nächste Schritte und Materialien für euren Start*
+
+---
+
 ## Folie 1: Ziel & Motivation
 
 ### 🎯 Warum richtige Nutzung von Copilot wichtig ist
