@@ -1,209 +1,166 @@
-# Copilot Instructions für Web-Entwicklung
+# Copilot Instructions: AI Agent Orchestration Framework
 
-## Tech Stack
+This repository is an **AI agent orchestration framework** for web development, not a code project. It contains specialized agents and reusable skills that coordinate to handle complex development tasks.
 
-### Frontend
-- **Framework**: React 18+ mit TypeScript
-- **Styling**: TailwindCSS / CSS Modules
-- **State Management**: Zustand oder React Context
-- **Routing**: React Router v6
-- **Forms**: React Hook Form + Zod Validation
-- **HTTP Client**: Fetch API oder Axios
-- **Build Tool**: Vite
+## Architecture Overview
 
-### Backend (falls vorhanden)
-- **Runtime**: Node.js mit Express oder Next.js API Routes
-- **Database**: PostgreSQL mit Prisma ORM
-- **Authentication**: JWT oder Session-based
-- **API Style**: RESTful oder GraphQL
-
-### Testing
-- **Unit Tests**: Vitest
-- **Component Tests**: React Testing Library
-- **E2E Tests**: Playwright
-- **Coverage**: Minimum 80% für kritische Pfade
-
-## Coding Standards
-
-### TypeScript
-- Verwende **strict mode** (`"strict": true` in tsconfig.json)
-- Definiere explizite Types für alle Function Parameters und Return Values
-- Vermeide `any` - nutze `unknown`, `never` oder spezifische Types
-- Verwende Interfaces für Object Shapes, Types für Unions/Intersections
-- Nutze Generics für wiederverwendbare Komponenten
-
-### React Best Practices
-- **Nur funktionale Komponenten** mit Hooks (keine Class Components)
-- Verwende **Named Exports** statt Default Exports
-- Implementiere **PropTypes** via TypeScript Interfaces
-- Nutze `React.memo()` nur bei Performance-Problemen
-- Verwende `useCallback` und `useMemo` sparsam und gezielt
-- Implementiere **Error Boundaries** für robuste Fehlerbehandlung
-- Vermeide direkte DOM-Manipulation - nutze Refs nur wenn nötig
-
-### Code Organization
 ```
-src/
-├── components/       # Wiederverwendbare UI-Komponenten
-│   ├── Button/
-│   │   ├── Button.tsx
-│   │   ├── Button.test.tsx
-│   │   └── Button.module.css
+.github/
+├── agents/              # Specialized AI agents (12 agents)
+│   ├── web-orchestrator.agent.md      # Coordinates all agents
+│   ├── react-specialist.agent.md      # React components & hooks
+│   ├── security-auditor.agent.md      # Security reviews
 │   └── ...
-├── pages/           # Page-Level Komponenten
-├── features/        # Feature-based modules
-├── hooks/           # Custom React Hooks
-├── services/        # API calls und externe Services
-├── utils/           # Helper functions
-├── types/           # Shared TypeScript types
-├── constants/       # App-weite Konstanten
-└── assets/          # Statische Assets (Bilder, Icons)
+├── skills/              # Reusable knowledge modules (14 skills)
+│   ├── react-component-creation/      # Component patterns
+│   ├── form-validation/               # Form handling guide
+│   └── ...
+├── instructions/        # Framework and coding rules
+│   ├── framework.instructions.md      # Core framework conventions
+│   └── web-development.instructions.md # Generated code standards
+├── prompts/             # Workflow templates
+│   ├── create-agent.prompt.md         # New agent template
+│   ├── create-skill.prompt.md         # New skill template
+│   ├── extend-framework.prompt.md     # Extension workflow
+│   └── debug-orchestration.prompt.md  # Troubleshooting guide
+└── copilot-instructions.md (this file)
 ```
 
-### Naming Conventions
-- **Komponenten**: PascalCase (`Button.tsx`, `UserProfile.tsx`)
-- **Hooks**: camelCase mit "use" prefix (`useAuth.ts`, `useFetch.ts`)
-- **Utils**: camelCase (`formatDate.ts`, `validateEmail.ts`)
-- **Constants**: UPPER_SNAKE_CASE (`API_BASE_URL`, `MAX_FILE_SIZE`)
-- **Types/Interfaces**: PascalCase mit "I" prefix für Interfaces optional (`User`, `IUserProps`)
-- **CSS Modules**: camelCase (`styles.container`, `styles.primaryButton`)
+## Critical Patterns
 
-### Code Style
-- **Einrückung**: 2 Spaces (kein Tab)
-- **Quotes**: Single Quotes für Strings, Double Quotes für JSX
-- **Semicolons**: Ja, immer verwenden
-- **Line Length**: Maximum 100 Zeichen
-- **Trailing Commas**: Ja, bei Multi-Line Arrays/Objects
-- **Arrow Functions**: Bevorzugt für alle Functions
+### 1. Agent File Structure
 
-## Accessibility (A11y)
+All agent files follow this pattern (.github/agents/*.agent.md):
 
-- Verwende **semantisches HTML** (header, nav, main, article, section, footer)
-- Füge **alt-Text** für alle Bilder hinzu
-- Stelle **Keyboard-Navigation** sicher (Tab, Enter, Esc)
-- Implementiere **ARIA-Labels** nur wo nötig (semantic HTML first)
-- Teste mit **Screen Reader** (mindestens VoiceOver/NVDA)
-- Achte auf **Farbkontrast** (WCAG AA: 4.5:1 für Text)
-- Verwende **focus indicators** die sichtbar sind
-
-## Performance
-
-- Implementiere **Code Splitting** mit `React.lazy()` und `Suspense`
-- Nutze **Image Optimization** (WebP, responsive images, lazy loading)
-- Minimiere **Bundle Size** - prüfe mit `vite-bundle-visualizer`
-- Implementiere **Virtualization** für lange Listen (react-virtual)
-- Verwende **Debouncing/Throttling** für Event Handlers
-- Optimiere **Core Web Vitals**: LCP < 2.5s, FID < 100ms, CLS < 0.1
-
-## Security
-
-- **Validiere alle Inputs** (Frontend + Backend)
-- **Sanitize User Content** vor dem Rendering (XSS-Prevention)
-- Verwende **HTTPS** für alle API Calls
-- Implementiere **CORS** sicher
-- Nutze **HttpOnly Cookies** für Tokens
-- Keine **Secrets im Frontend** - nur Environment Variables
-- Implementiere **Rate Limiting** für sensible Endpoints
-- Verwende **Content Security Policy** (CSP) Headers
-
-## Git Workflow
-
-### Commit Messages
-Folge Conventional Commits:
-```
-feat: add user authentication
-fix: resolve button alignment issue
-docs: update README with setup instructions
-style: format code with prettier
-refactor: extract API logic into service layer
-test: add tests for user registration
-chore: update dependencies
-```
-
-### Branch Naming
-- `feature/user-authentication`
-- `bugfix/header-overflow`
-- `hotfix/security-vulnerability`
-- `refactor/api-service-layer`
-
-## Error Handling
-
-- Implementiere **try-catch** für async Operations
-- Zeige **User-Friendly Error Messages** (keine Stack Traces)
-- Logge Errors mit **Context Information** (User ID, Timestamp, Action)
-- Implementiere **Error Boundaries** für React Components
-- Nutze **Toast Notifications** für User Feedback
-- Implementiere **Retry Logic** für failed API Calls
-
-## API Integration
-
-- Verwende **Environment Variables** für API URLs
-- Implementiere **Loading States** für alle async Operations
-- Zeige **Error States** mit Retry-Option
-- Nutze **Request/Response Interceptors** für Auth Headers
-- Implementiere **Request Caching** wo sinnvoll
-- Verwende **Optimistic Updates** für bessere UX
-- Implementiere **Pagination** für große Datenmengen
-
-## Documentation
-
-- Schreibe **JSDoc Comments** für komplexe Functions
-- Dokumentiere **Props** bei komplexen Komponenten
-- Erstelle **README** für jedes Feature-Module
-- Dokumentiere **API Endpoints** mit OpenAPI/Swagger
-- Halte **Changelog** aktuell
-- Schreibe **Setup Instructions** im Projekt-README
-
-## Testing Philosophy
-
-- Teste **User Behavior**, nicht Implementation Details
-- Schreibe Tests **before oder during** Development (TDD encouraged)
-- **Mock externe Dependencies** (APIs, Browser APIs)
-- Teste **Error Cases und Edge Cases**
-- Verwende **Test-IDs** statt CSS Selectors für stabile Tests
-- Schreibe **aussagekräftige Test Descriptions**
-
-## Don'ts (Vermeide diese Anti-Patterns)
-
-- ❌ Keine `any` Types ohne guten Grund
-- ❌ Keine `console.log` im Production Code
-- ❌ Keine Inline Styles (außer für dynamische Werte)
-- ❌ Keine langen Functions (max 50 Zeilen)
-- ❌ Keine tief verschachtelten Ternary Operators
-- ❌ Keine Mutation von Props oder State
-- ❌ Keine unnötigen Re-Renders (`useEffect` dependencies beachten)
-- ❌ Keine Commits ohne vorherige Tests
-- ❌ Keine hardcoded URLs oder Credentials
-
-## Quick Commands
-
-```bash
-# Development
-pnpm dev              # Start dev server
-pnpm build            # Build for production
-pnpm preview          # Preview production build
-
-# Testing
-pnpm test             # Run unit tests
-pnpm test:watch       # Run tests in watch mode
-pnpm test:coverage    # Generate coverage report
-pnpm test:e2e         # Run E2E tests
-
-# Code Quality
-pnpm lint             # Run ESLint
-pnpm lint:fix         # Fix ESLint issues
-pnpm format           # Format with Prettier
-pnpm type-check       # TypeScript type checking
-```
-
-## Zusätzliche Ressourcen
-
-- [React Documentation](https://react.dev)
-- [TypeScript Handbook](https://www.typescriptlang.org/docs/handbook/intro.html)
-- [WCAG Guidelines](https://www.w3.org/WAI/WCAG21/quickref/)
-- [Web.dev Performance](https://web.dev/performance/)
-- [OWASP Top 10](https://owasp.org/www-project-top-ten/)
-
+```markdown
+---
+name: agent-name
+description: Brief description of the agent's purpose
+tools: ["read", "edit", "search"]  # Optional
 ---
 
-**Wichtig**: Diese Guidelines dienen als Baseline. Custom Agents in `.github/agents/` können für spezifische Tasks zusätzliche spezialisierte Anweisungen haben.
+Agent instructions in markdown...
+```
+
+**Naming convention**: kebab-case filename matching frontmatter name
+
+### 2. Skill File Structure
+
+Skills live in `.github/skills/<skill-name>/SKILL.md`:
+
+```markdown
+---
+name: skill-name
+description: When to use this skill
+---
+
+# Skill Title
+
+Step-by-step instructions...
+```
+
+**Key difference**: Skills are passive knowledge modules; agents are active specialists that use skills.
+
+### 3. Orchestrator Pattern
+
+The `web-orchestrator` agent is the entry point for complex tasks:
+- **Delegates** to specialized agents via `runSubagent` tool (NEVER @-mentions)
+- **Enforces quality gates**: security-auditor, accessibility-expert, testing-expert
+- **Mandates code separation**: CSS/JS in separate files, no inline code
+
+Example orchestration flow:
+1. User requests feature → web-orchestrator
+2. Delegate to react-specialist → creates component
+3. Delegate to css-design-system → styles component
+4. Delegate to security-auditor → reviews for vulnerabilities
+5. Delegate to testing-expert → writes tests
+
+### 4. Quality Gates (Always Applied)
+
+From [.github/agents/web-orchestrator.agent.md](.github/agents/web-orchestrator.agent.md):
+
+```
+✅ Mandatory Checks:
+[ ] CSS in separate file (styles.css, main.css)
+[ ] JavaScript in separate file (script.js, main.js)
+[ ] NO <style> tags (except critical CSS < 1KB)
+[ ] NO inline <script> code
+[ ] Security-auditor runs after code changes
+[ ] Accessibility-expert runs for UI components
+[ ] Testing-expert runs for new functionality
+```
+
+## Available Agents
+
+| Agent | Purpose | When to Use |
+|-------|---------|-------------|
+| web-orchestrator | Coordinates all agents | Complex multi-agent tasks |
+| react-specialist | React components, hooks, state | React development |
+| css-design-system | Styling, responsive design | UI/layout work |
+| api-developer | REST/GraphQL APIs | Backend endpoints |
+| testing-expert | Unit/integration/E2E tests | Writing tests |
+| security-auditor | Security reviews | Security checks |
+| accessibility-expert | WCAG compliance | Accessibility audits |
+| performance-optimizer | Performance optimization | Speed/bundle size |
+| database-specialist | Schema design, queries | Database work |
+| seo-specialist | SEO, meta tags, Core Web Vitals | SEO optimization |
+| devops-deployment | CI/CD, Docker, deployment | DevOps tasks |
+
+## Available Skills
+
+Skills provide domain-specific guidance:
+- `react-component-creation` - Component structure patterns
+- `form-validation` - React Hook Form + Zod
+- `authentication-implementation` - JWT/session auth
+- `api-endpoint-creation` - RESTful API patterns
+- `database-schema-design` - Prisma ORM schemas
+- `accessibility-audit` - WCAG 2.1 AA checklist
+- `security-audit` - OWASP Top 10 checklist
+- `performance-optimization` - Core Web Vitals guide
+- Additional skills in [.github/skills/](.github/skills/)
+
+## Modifying This Framework
+
+### Adding a New Agent
+
+1. Create `.github/agents/<name>.agent.md`
+2. Add YAML frontmatter with `name` and `description`
+3. Write agent-specific instructions
+4. Update web-orchestrator's agent list if needed
+
+### Adding a New Skill
+
+1. Create `.github/skills/<name>/SKILL.md`
+2. Add YAML frontmatter with `name` and `description`
+3. Write step-by-step procedural guidance
+4. Skills should be agent-agnostic (reusable)
+
+### Conventions
+
+- **Agents**: Active specialists that perform tasks
+- **Skills**: Passive knowledge that agents reference
+- **Instructions**: Framework rules and coding standards
+- **Prompts**: Reusable workflow templates and guides
+- **Language**: German for instructions, English for code
+- **Tool Usage**: Agents specify allowed tools in frontmatter
+
+### Key Files
+
+- [framework.instructions.md](.github/instructions/framework.instructions.md) - Core framework rules, naming conventions, file structure
+- [web-development.instructions.md](.github/instructions/web-development.instructions.md) - Coding standards for generated code
+- [create-agent.prompt.md](.github/prompts/create-agent.prompt.md) - Template for creating new agents
+- [create-skill.prompt.md](.github/prompts/create-skill.prompt.md) - Template for creating new skills
+- [extend-framework.prompt.md](.github/prompts/extend-framework.prompt.md) - Workflow for major extensions
+- [debug-orchestration.prompt.md](.github/prompts/debug-orchestration.prompt.md) - Troubleshooting guide
+
+## Web Development Standards (For Generated Code)
+
+When agents generate actual code, they follow these standards:
+- **Stack**: React 18 + TypeScript, TailwindCSS, Vite
+- **Testing**: Vitest + React Testing Library
+- **Naming**: PascalCase components, camelCase functions/hooks
+- **Style**: 2 spaces, single quotes, semicolons, max 100 chars
+- **Security**: Input validation, XSS prevention, no secrets in code
+- **Accessibility**: Semantic HTML, ARIA labels, keyboard navigation
+
+See individual agents/skills for detailed standards.
