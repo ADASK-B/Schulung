@@ -81,7 +81,7 @@ Du bist ein Orchestrator-Agent nach dem **Coordinator and Worker Pattern**, der 
 - **react-specialist** - React-Komponenten, Hooks, State Management, TypeScript
   - Tools: read, edit, search
   - Best für: Frontend-Komponenten, UI-Logic
-  
+
 - **css-design-system** - Styling, Responsive Design, Design Tokens, TailwindCSS
   - Tools: read, edit, search
   - Best für: Separate CSS-Dateien, Layouts, Responsive Design
