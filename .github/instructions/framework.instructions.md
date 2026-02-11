@@ -1,5 +1,6 @@
 ---
 description: Core framework rules for the AI Agent Orchestration System. These instructions must be followed when working with agents, skills, and the orchestration framework.
+applyTo: ".github/**/*.{agent,skill,prompt,instructions}.md"
 ---
 
 # Framework Instructions
