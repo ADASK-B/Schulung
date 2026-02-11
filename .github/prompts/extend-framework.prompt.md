@@ -1,10 +1,14 @@
 ---
-description: Workflow for extending the AI agent framework with new capabilities. Use when adding major features like new agent types, skill categories, or orchestration patterns.
+name: extend-framework
+description: Erweitere das Framework mit neuen Capabilities (Agents, Skills, Quality Gates, Patterns)
 ---
 
-# Extend Framework Prompt
+Erweitere das AI Agent Orchestration Framework mit neuen Capabilities.
 
-Use this workflow when making significant extensions to the AI agent orchestration framework.
+**Extension-Typ:**
+${input:extensionType:New Agent Category, New Skill Category, New Quality Gate, New Orchestration Pattern}
+
+**Details:**
 
 ## Extension Types
 

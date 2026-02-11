@@ -1,10 +1,39 @@
 ---
-description: Template for creating a new reusable skill module. Use this when adding procedural knowledge that multiple agents can reference.
+name: create-skill
+description: Erstelle einen neuen wiederverwendbaren Skill für das Framework
 ---
 
-# Create New Skill Prompt
+Erstelle einen neuen wiederverwendbaren Skill für das AI Agent Orchestration Framework.
 
-Use this template when creating a new skill for the AI agent orchestration framework.
+**Skill-Details:**
+- Skill-Name (kebab-case): ${input:skillName:skill-name}
+- Kategorie: ${input:category:component-patterns, implementation-guides, audit-checklists, optimization-guides}
+- Kurze Beschreibung: ${input:description}
+
+**Aufgabe:**
+
+1. Erstelle den Ordner und die Datei `.github/skills/${input:skillName}/SKILL.md` mit:
+   - YAML Frontmatter (name, description)
+   - Step-by-step Struktur
+   - Konkrete Code-Beispiele (keine Platzhalter!)
+   - Best Practices und Common Pitfalls
+   - Verification Checklist
+
+2. Stelle sicher dass der Skill:
+   - Agent-agnostisch ist (mehrere Agents können ihn nutzen)
+   - Prozedural ist (Schritt-für-Schritt Anweisungen)
+   - Konkrete Beispiele enthält (aus React/TypeScript Stack)
+   - Wiederverwendbar ist
+
+3. Aktualisiere `.github/copilot-instructions.md`:
+   - Füge Skill zur "Available Skills" Liste hinzu
+   - Mit kurzer Beschreibung
+
+4. Referenziere den Skill von relevanten Agents (z.B. in deren "Richtlinien" Sektion)
+
+5. Zeige mir nach Erstellung eine Zusammenfassung und welche Agents den Skill nutzen sollten.
+
+Beginne jetzt mit der Erstellung!
 
 ## Skill Template
 

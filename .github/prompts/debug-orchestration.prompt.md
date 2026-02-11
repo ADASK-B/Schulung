@@ -1,10 +1,39 @@
 ---
-description: Workflow for debugging issues with agent orchestration and delegation. Use when agents aren't collaborating correctly or quality gates fail.
+name: debug-orchestration
+description: Debugge Probleme mit Agent-Orchestrierung und Delegation
 ---
 
-# Debug Orchestration Prompt
+Hilf mir beim Debuggen von Problemen mit dem AI Agent Orchestration Framework.
 
-Use this workflow when troubleshooting agent orchestration issues.
+**Problem:**
+${input:problem:Agent wird nicht invoked, Quality Gate läuft nicht, Code Separation violated, Skill wird nicht benutzt, Agent Collaboration failed}
+
+**Kontext:**
+${input:context:Welcher Agent? Welche Datei? Was sollte passieren?}
+
+**Aufgabe:**
+
+1. Analysiere das Problem basierend auf den häufigen Issues:
+   - Issue 1: Agent Not Being Invoked
+   - Issue 2: Quality Gate Not Running
+   - Issue 3: Agent Collaboration Failed
+   - Issue 4: Code Separation Violated
+   - Issue 5: Skill Not Being Used
+
+2. Führe relevante Debug Steps aus:
+   - Prüfe ob Agent-Datei existiert und korrekt formatiert ist
+   - Prüfe ob Agent in web-orchestrator gelistet ist
+   - Prüfe Frontmatter (name, description, tools)
+   - Prüfe applyTo Patterns bei Instructions
+   - Prüfe Zusammenarbeit-Sektionen
+
+3. Zeige mir:
+   - Was das Problem ist
+   - Wo der Fehler liegt (mit Datei-Links)
+   - Wie ich es beheben kann
+   - Vorbeugende Maßnahmen
+
+Beginne jetzt mit der Analyse!
 
 ## Common Issues
 
