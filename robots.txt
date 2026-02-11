@@ -1,0 +1,36 @@
+# robots.txt für TRUMPF Landing Page
+# Optimiert für Suchmaschinen-Crawling
+
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /private/
+Disallow: /api/
+Disallow: /*.json$
+Disallow: /*?*utm_
+Disallow: /404
+
+# Crawl-Delay für spezifische Bots
+User-agent: Googlebot
+Crawl-delay: 0
+
+User-agent: Bingbot
+Crawl-delay: 1
+
+# Sitemap Location
+Sitemap: https://www.trumpf.com/de/sitemap.xml
+
+# Verhindern von Image Hotlinking durch Bots
+User-agent: *
+Disallow: /assets/*.jpg$
+Disallow: /assets/*.png$
+Disallow: /assets/*.jpeg$
+Allow: /assets/logo.svg
+Allow: /assets/favicon.svg
+
+# Erlauben für Suchmaschinen-Bots (Image Search)
+User-agent: Googlebot-Image
+Allow: /assets/
+
+User-agent: Bingbot-Image
+Allow: /assets/

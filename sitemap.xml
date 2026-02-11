@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+    
+    <!-- Home / Landing Page -->
+    <url>
+        <loc>https://www.trumpf.com/de</loc>
+        <lastmod>2024-01-15</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>1.0</priority>
+        <image:image>
+            <image:loc>https://www.trumpf.com/de/assets/hero-image.jpg</image:loc>
+            <image:title>TRUMPF Lasertechnologie in modernem Produktionsumfeld</image:title>
+            <image:caption>TRUMPF bietet innovative Lasertechnologie für die industrielle Fertigung</image:caption>
+        </image:image>
+        <image:image>
+            <image:loc>https://www.trumpf.com/de/assets/about-image.jpg</image:loc>
+            <image:title>TRUMPF Produktion und Innovation</image:title>
+            <image:caption>Mitarbeiter arbeiten an modernster Lasertechnologie</image:caption>
+        </image:image>
+    </url>
+    
+    <!-- Produkte Section -->
+    <url>
+        <loc>https://www.trumpf.com/de/produkte</loc>
+        <lastmod>2024-01-15</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    
+    <!-- Lasertechnik -->
+    <url>
+        <loc>https://www.trumpf.com/de/produkte/lasertechnik</loc>
+        <lastmod>2024-01-15</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <!-- Werkzeugmaschinen -->
+    <url>
+        <loc>https://www.trumpf.com/de/produkte/werkzeugmaschinen</loc>
+        <lastmod>2024-01-15</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <!-- Elektronik -->
+    <url>
+        <loc>https://www.trumpf.com/de/produkte/elektronik</loc>
+        <lastmod>2024-01-15</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <!-- Software & Lösungen -->
+    <url>
+        <loc>https://www.trumpf.com/de/loesungen</loc>
+        <lastmod>2024-01-15</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <!-- Über Uns -->
+    <url>
+        <loc>https://www.trumpf.com/de/ueber-uns</loc>
+        <lastmod>2024-01-15</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    
+    <!-- Nachhaltigkeit -->
+    <url>
+        <loc>https://www.trumpf.com/de/nachhaltigkeit</loc>
+        <lastmod>2024-01-15</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    
+    <!-- Karriere -->
+    <url>
+        <loc>https://www.trumpf.com/de/karriere</loc>
+        <lastmod>2024-01-15</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    
+    <!-- Kontakt -->
+    <url>
+        <loc>https://www.trumpf.com/de/kontakt</loc>
+        <lastmod>2024-01-15</lastmod>
+        <changefreq>yearly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    
+    <!-- Support & Service -->
+    <url>
+        <loc>https://www.trumpf.com/de/service/support</loc>
+        <lastmod>2024-01-15</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    
+    <!-- Schulungen -->
+    <url>
+        <loc>https://www.trumpf.com/de/service/schulungen</loc>
+        <lastmod>2024-01-15</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    
+    <!-- Downloads -->
+    <url>
+        <loc>https://www.trumpf.com/de/service/downloads</loc>
+        <lastmod>2024-01-15</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    
+    <!-- Standorte -->
+    <url>
+        <loc>https://www.trumpf.com/de/standorte</loc>
+        <lastmod>2024-01-15</lastmod>
+        <changefreq>yearly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    
+    <!-- Presse -->
+    <url>
+        <loc>https://www.trumpf.com/de/presse</loc>
+        <lastmod>2024-01-15</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    
+    <!-- Impressum -->
+    <url>
+        <loc>https://www.trumpf.com/de/impressum</loc>
+        <lastmod>2024-01-15</lastmod>
+        <changefreq>yearly</changefreq>
+        <priority>0.3</priority>
+    </url>
+    
+    <!-- Datenschutz -->
+    <url>
+        <loc>https://www.trumpf.com/de/datenschutz</loc>
+        <lastmod>2024-01-15</lastmod>
+        <changefreq>yearly</changefreq>
+        <priority>0.3</priority>
+    </url>
+    
+    <!-- AGB -->
+    <url>
+        <loc>https://www.trumpf.com/de/agb</loc>
+        <lastmod>2024-01-15</lastmod>
+        <changefreq>yearly</changefreq>
+        <priority>0.3</priority>
+    </url>
+    
+</urlset>
