@@ -171,7 +171,23 @@
       <div class="header-content">
         <div class="logo">
           <a href="/" aria-label="TRUMPF Startseite">
-            <img src="/assets/images/trumpf-logo.svg" alt="TRUMPF Logo" width="180" height="40">
+            <svg width="180" height="40" viewBox="0 0 180 40" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="TRUMPF Logo">
+              <title>TRUMPF</title>
+              <!-- Technologie-Symbol: Stilisierte Maschine/Laser -->
+              <g id="icon">
+                <rect x="3" y="10" width="20" height="20" rx="2" fill="#0066B3"/>
+                <rect x="7" y="14" width="12" height="2" fill="white"/>
+                <rect x="7" y="18" width="12" height="2" fill="white"/>
+                <rect x="7" y="22" width="8" height="2" fill="white"/>
+                <circle cx="24" cy="16" r="2.5" fill="#E60028"/>
+                <line x1="24" y1="16" x2="29" y2="12" stroke="#E60028" stroke-width="2" stroke-linecap="round"/>
+                <line x1="24" y1="16" x2="29" y2="20" stroke="#E60028" stroke-width="2" stroke-linecap="round"/>
+              </g>
+              <!-- TRUMPF Text -->
+              <text x="36" y="27" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" letter-spacing="2" fill="#0066B3">TRUMPF</text>
+              <!-- Akzent-Linie unter dem Text -->
+              <rect x="36" y="32" width="110" height="2.5" fill="#E60028" rx="1.25"/>
+            </svg>
           </a>
         </div>
 
@@ -198,7 +214,18 @@
     <!-- Hero Section -->
     <section class="hero" aria-labelledby="hero-heading">
       <div class="hero-background" aria-hidden="true">
-        <img src="/assets/images/hero-background.jpg" alt="" class="hero-image">
+        <svg class="hero-image" viewBox="0 0 1200 600" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+          <defs>
+            <linearGradient id="heroGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" style="stop-color:#0066B3;stop-opacity:0.1" />
+              <stop offset="100%" style="stop-color:#0066B3;stop-opacity:0.3" />
+            </linearGradient>
+          </defs>
+          <rect width="1200" height="600" fill="url(#heroGradient)"/>
+          <circle cx="200" cy="150" r="100" fill="#0066B3" opacity="0.05"/>
+          <circle cx="1000" cy="450" r="150" fill="#0066B3" opacity="0.05"/>
+          <path d="M100 300L300 200L500 350L700 250L900 400L1100 300" stroke="#0066B3" stroke-width="2" opacity="0.1" fill="none"/>
+        </svg>
       </div>
       <div class="container">
         <div class="hero-content">
@@ -222,7 +249,11 @@
           <!-- Feature 1: Werkzeugmaschinen -->
           <article class="feature-card">
             <div class="feature-icon">
-              <img src="/assets/images/icon-werkzeugmaschinen.svg" alt="TRUMPF Werkzeugmaschinen Icon - CNC Stanz- und Schneidtechnologie" width="80" height="80" aria-hidden="true">
+              <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <circle cx="40" cy="40" r="32" stroke="var(--color-primary, #0066B3)" stroke-width="3" fill="none"/>
+                <circle cx="40" cy="40" r="6" fill="var(--color-primary, #0066B3)"/>
+                <path d="M40 14L43 24L48 22L46 28L52 28L48 33L52 38L46 38L48 44L43 42L40 52L37 42L32 44L34 38L28 38L32 33L28 28L34 28L32 22L37 24L40 14Z" fill="var(--color-primary, #0066B3)"/>
+              </svg>
             </div>
             <h3 class="feature-title">Werkzeugmaschinen für Blechbearbeitung</h3>
             <p class="feature-description">
@@ -235,7 +266,14 @@
           <!-- Feature 2: Lasertechnik -->
           <article class="feature-card">
             <div class="feature-icon">
-              <img src="/assets/images/icon-lasertechnik.svg" alt="TRUMPF Lasertechnik Icon - Industrielle Lasersysteme und Laserschneiden" width="80" height="80" aria-hidden="true">
+              <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M20 30L35 40L20 50V30Z" fill="var(--color-primary, #0066B3)"/>
+                <path d="M35 40H70" stroke="var(--color-primary, #0066B3)" stroke-width="4" stroke-linecap="round"/>
+                <circle cx="70" cy="40" r="4" fill="#FF6B00"/>
+                <path d="M40 35L45 40L40 45" stroke="var(--color-primary, #0066B3)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M50 35L55 40L50 45" stroke="var(--color-primary, #0066B3)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M60 35L65 40L60 45" stroke="var(--color-primary, #0066B3)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
             </div>
             <h3 class="feature-title">Lasertechnik & Lasersysteme</h3>
             <p class="feature-description">
@@ -248,7 +286,20 @@
           <!-- Feature 3: Elektronik -->
           <article class="feature-card">
             <div class="feature-icon">
-              <img src="/assets/images/icon-elektronik.svg" alt="TRUMPF Elektronik Icon - Hochleistungselektronik und Steuerungssysteme" width="80" height="80" aria-hidden="true">
+              <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <rect x="15" y="20" width="50" height="40" rx="4" stroke="var(--color-primary, #0066B3)" stroke-width="3" fill="none"/>
+                <rect x="25" y="30" width="30" height="20" fill="var(--color-primary, #0066B3)" opacity="0.3"/>
+                <circle cx="22" cy="27" r="2" fill="var(--color-primary, #0066B3)"/>
+                <circle cx="30" cy="27" r="2" fill="var(--color-primary, #0066B3)"/>
+                <circle cx="22" cy="53" r="2" fill="var(--color-primary, #0066B3)"/>
+                <circle cx="30" cy="53" r="2" fill="var(--color-primary, #0066B3)"/>
+                <circle cx="58" cy="27" r="2" fill="var(--color-primary, #0066B3)"/>
+                <circle cx="50" cy="27" r="2" fill="var(--color-primary, #0066B3)"/>
+                <circle cx="58" cy="53" r="2" fill="var(--color-primary, #0066B3)"/>
+                <circle cx="50" cy="53" r="2" fill="var(--color-primary, #0066B3)"/>
+                <path d="M22 27V30M30 27V30M58 27V30M50 27V30" stroke="var(--color-primary, #0066B3)" stroke-width="1.5"/>
+                <path d="M22 50V53M30 50V53M58 50V53M50 50V53" stroke="var(--color-primary, #0066B3)" stroke-width="1.5"/>
+              </svg>
             </div>
             <h3 class="feature-title">Elektronik & Steuerungssysteme</h3>
             <p class="feature-description">
@@ -285,14 +336,24 @@
           </div>
 
           <div class="innovation-media">
-            <img
-              src="/assets/images/innovation-lab.jpg"
-              alt="TRUMPF Forschungslabor: Ingenieure entwickeln innovative Lasertechnologie und Werkzeugmaschinen für Industrie 4.0 und Smart Factory"
+            <svg
               class="innovation-image"
+              viewBox="0 0 600 400"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
               width="600"
               height="400"
-              loading="lazy"
+              role="img"
+              aria-label="TRUMPF Forschungslabor: Ingenieure entwickeln innovative Lasertechnologie und Werkzeugmaschinen für Industrie 4.0 und Smart Factory"
             >
+              <rect width="600" height="400" fill="#f5f5f5"/>
+              <circle cx="300" cy="200" r="80" stroke="#0066B3" stroke-width="3" fill="none"/>
+              <circle cx="300" cy="200" r="60" stroke="#0066B3" stroke-width="2" fill="none" opacity="0.6"/>
+              <circle cx="300" cy="200" r="40" stroke="#0066B3" stroke-width="2" fill="none" opacity="0.4"/>
+              <path d="M300 120L330 200L300 280L270 200L300 120Z" fill="#0066B3" opacity="0.2"/>
+              <circle cx="300" cy="200" r="10" fill="#0066B3"/>
+              <text x="300" y="350" font-family="Arial, sans-serif" font-size="18" fill="#666" text-anchor="middle">Forschung & Innovation</text>
+            </svg>
           </div>
         </div>
       </div>
@@ -373,13 +434,19 @@
 
         <div class="footer-social" role="navigation" aria-label="Social Media Links">
           <a href="https://www.linkedin.com/company/trumpf" class="social-link" aria-label="TRUMPF auf LinkedIn besuchen" target="_blank" rel="noopener noreferrer">
-            <img src="/assets/images/icon-linkedin.svg" alt="" width="24" height="24" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" fill="currentColor"/>
+            </svg>
           </a>
           <a href="https://www.youtube.com/trumpf" class="social-link" aria-label="TRUMPF auf YouTube besuchen" target="_blank" rel="noopener noreferrer">
-            <img src="/assets/images/icon-youtube.svg" alt="" width="24" height="24" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" fill="currentColor"/>
+            </svg>
           </a>
           <a href="https://twitter.com/trumpf" class="social-link" aria-label="TRUMPF auf Twitter besuchen" target="_blank" rel="noopener noreferrer">
-            <img src="/assets/images/icon-twitter.svg" alt="" width="24" height="24" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z" fill="currentColor"/>
+            </svg>
           </a>
         </div>
       </div>

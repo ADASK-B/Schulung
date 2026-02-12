@@ -7,7 +7,10 @@
    CSS Custom Properties (Theme Variables)
    ======================================== */
 :root {
-  /* TRUMPF Corporate Colors */
+  /* TRUMPF Corporate Colors
+     Note: These colors are used by inline SVG icons via var() references.
+     SVGs typically use: fill="var(--color-primary)" or stroke="var(--color-primary)"
+  */
   --color-primary: #E30613;
   --color-primary-dark: #B30510;
   --color-primary-light: #FF1F2D;
@@ -505,11 +508,52 @@ section {
   justify-content: center;
   width: 80px;
   height: 80px;
-  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent) 100%);
-  border-radius: var(--radius-lg);
+  min-width: 80px;
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-light) 100%);
+  border-radius: 50%;
   padding: var(--spacing-sm);
+  box-shadow: var(--shadow-sm);
+  transition: all var(--transition-base);
+  position: relative;
+  overflow: hidden;
 }
 
+.feature-icon::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0) 100%);
+  border-radius: 50%;
+  opacity: 0;
+  transition: opacity var(--transition-base);
+}
+
+.feature-card:hover .feature-icon {
+  transform: scale(1.1) rotate(5deg);
+  box-shadow: var(--shadow-lg);
+}
+
+.feature-card:hover .feature-icon::before {
+  opacity: 1;
+}
+
+.feature-card:focus-within .feature-icon {
+  outline: 3px solid var(--color-accent);
+  outline-offset: 4px;
+}
+
+.feature-icon svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+  transition: transform var(--transition-base);
+}
+
+.feature-card:hover .feature-icon svg {
+  transform: scale(1.05);
+}
+
+/* Legacy img support (falls noch verwendet) */
 .feature-icon img {
   width: 100%;
   height: 100%;
@@ -1370,11 +1414,52 @@ select:focus-visible {
   justify-content: center;
   width: 80px;
   height: 80px;
-  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent) 100%);
-  border-radius: var(--radius-lg);
+  min-width: 80px;
+  background: linear-gradient(135deg, var(--color-secondary) 0%, var(--color-primary) 100%);
+  border-radius: 50%;
   padding: var(--spacing-sm);
+  box-shadow: var(--shadow-sm);
+  transition: all var(--transition-base);
+  position: relative;
+  overflow: hidden;
 }
 
+.service-icon::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0) 100%);
+  border-radius: 50%;
+  opacity: 0;
+  transition: opacity var(--transition-base);
+}
+
+.service-card:hover .service-icon {
+  transform: scale(1.1) rotate(-5deg);
+  box-shadow: var(--shadow-lg);
+}
+
+.service-card:hover .service-icon::before {
+  opacity: 1;
+}
+
+.service-card:focus-within .service-icon {
+  outline: 3px solid var(--color-accent);
+  outline-offset: 4px;
+}
+
+.service-icon svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+  transition: transform var(--transition-base);
+}
+
+.service-card:hover .service-icon svg {
+  transform: scale(1.05);
+}
+
+/* Legacy img support */
 .service-icon img {
   width: 100%;
   height: 100%;
@@ -1600,11 +1685,52 @@ select:focus-visible {
   justify-content: center;
   width: 80px;
   height: 80px;
-  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent) 100%);
-  border-radius: var(--radius-lg);
+  min-width: 80px;
+  background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-accent-dark) 100%);
+  border-radius: 50%;
   padding: var(--spacing-sm);
+  box-shadow: var(--shadow-sm);
+  transition: all var(--transition-base);
+  position: relative;
+  overflow: hidden;
 }
 
+.why-icon::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0) 100%);
+  border-radius: 50%;
+  opacity: 0;
+  transition: opacity var(--transition-base);
+}
+
+.why-card:hover .why-icon {
+  transform: scale(1.1) rotate(5deg);
+  box-shadow: var(--shadow-lg);
+}
+
+.why-card:hover .why-icon::before {
+  opacity: 1;
+}
+
+.why-card:focus-within .why-icon {
+  outline: 3px solid var(--color-primary);
+  outline-offset: 4px;
+}
+
+.why-icon svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+  transition: transform var(--transition-base);
+}
+
+.why-card:hover .why-icon svg {
+  transform: scale(1.05);
+}
+
+/* Legacy img support */
 .why-icon img {
   width: 100%;
   height: 100%;
@@ -2189,5 +2315,227 @@ select:focus-visible {
   /* Benefits - 4 Columns on Large Desktop */
   .benefits-grid {
     grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* ========================================
+   SVG Icon Optimizations
+   ======================================== */
+
+/* Global SVG Styles */
+svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+/* Icon Container Base Styles */
+[class*="-icon"] {
+  flex-shrink: 0;
+}
+
+/* SVG Color Variables - Ensure proper theming */
+svg [fill*="var(--color-primary)"],
+svg [stroke*="var(--color-primary)"] {
+  transition: all var(--transition-base);
+}
+
+/* SVG Accessibility - Improved Focus States */
+a:focus svg,
+button:focus svg {
+  outline: 3px solid var(--color-accent);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+/* Smooth SVG Animations */
+@keyframes icon-float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes icon-pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+@keyframes icon-rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Optional animation classes for enhanced UX */
+.icon-animate-float {
+  animation: icon-float 3s ease-in-out infinite;
+}
+
+.icon-animate-pulse {
+  animation: icon-pulse 2s ease-in-out infinite;
+}
+
+.icon-animate-rotate {
+  animation: icon-rotate 20s linear infinite;
+}
+
+/* ========================================
+   Responsive SVG Icon Scaling
+   ======================================== */
+
+/* Mobile: Slightly smaller icons for better layout */
+@media (max-width: 767px) {
+  .feature-icon,
+  .service-icon,
+  .why-icon {
+    width: 64px;
+    height: 64px;
+    min-width: 64px;
+  }
+
+  /* Reduce icon padding on mobile */
+  .feature-icon,
+  .service-icon,
+  .why-icon {
+    padding: calc(var(--spacing-sm) * 0.75);
+  }
+
+  /* Simplify hover effects on mobile (touch devices) */
+  @media (hover: none) {
+    .feature-card:hover .feature-icon,
+    .service-card:hover .service-icon,
+    .why-card:hover .why-icon {
+      transform: scale(1.05);
+    }
+
+    .feature-card:hover .feature-icon svg,
+    .service-card:hover .service-icon svg,
+    .why-card:hover .why-icon svg {
+      transform: none;
+    }
+  }
+}
+
+/* Tablet: Default sizes (80px) - already defined above */
+
+/* Desktop: Scale up slightly for better visual impact */
+@media (min-width: 1024px) {
+  .feature-icon,
+  .service-icon,
+  .why-icon {
+    width: 96px;
+    height: 96px;
+    min-width: 96px;
+  }
+}
+
+/* Large Desktop: Maximum size */
+@media (min-width: 1440px) {
+  .feature-icon,
+  .service-icon,
+  .why-icon {
+    width: 104px;
+    height: 104px;
+    min-width: 104px;
+  }
+}
+
+/* ========================================
+   Utility Classes for SVG Icons
+   ======================================== */
+
+/* Icon color utilities */
+.icon-primary svg {
+  fill: var(--color-primary);
+  stroke: var(--color-primary);
+}
+
+.icon-secondary svg {
+  fill: var(--color-secondary);
+  stroke: var(--color-secondary);
+}
+
+.icon-accent svg {
+  fill: var(--color-accent);
+  stroke: var(--color-accent);
+}
+
+.icon-white svg {
+  fill: var(--color-white);
+  stroke: var(--color-white);
+}
+
+/* Icon size utilities */
+.icon-sm {
+  width: 48px;
+  height: 48px;
+  min-width: 48px;
+}
+
+.icon-md {
+  width: 64px;
+  height: 64px;
+  min-width: 64px;
+}
+
+.icon-lg {
+  width: 96px;
+  height: 96px;
+  min-width: 96px;
+}
+
+.icon-xl {
+  width: 128px;
+  height: 128px;
+  min-width: 128px;
+}
+
+/* ========================================
+   Performance Optimizations
+   ======================================== */
+
+/* GPU acceleration for smoother animations */
+.feature-icon,
+.service-icon,
+.why-icon {
+  will-change: transform;
+}
+
+/* Remove will-change after animation completes */
+.feature-card:not(:hover) .feature-icon,
+.service-card:not(:hover) .service-icon,
+.why-card:not(:hover) .why-icon {
+  will-change: auto;
+}
+
+/* Reduce motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .feature-icon,
+  .service-icon,
+  .why-icon,
+  .feature-icon svg,
+  .service-icon svg,
+  .why-icon svg,
+  .icon-animate-float,
+  .icon-animate-pulse,
+  .icon-animate-rotate {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .feature-card:hover .feature-icon,
+  .service-card:hover .service-icon,
+  .why-card:hover .why-icon {
+    transform: none !important;
   }
 }
