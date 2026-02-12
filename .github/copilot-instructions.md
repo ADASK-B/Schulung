@@ -175,6 +175,198 @@ chore: update dependencies
 - ❌ Keine Commits ohne vorherige Tests
 - ❌ Keine hardcoded URLs oder Credentials
 
+## Config Files (Projekt-Root)
+
+### .env.example
+Template für Environment-Variables (niemals echte Secrets committen!):
+```env
+# App
+VITE_API_URL=http://localhost:3000/api
+VITE_APP_ENV=development
+
+# Backend (falls vorhanden)
+DATABASE_URL=postgresql://user:password@localhost:5432/dbname
+JWT_SECRET=your-jwt-secret-change-in-production
+REDIS_URL=redis://localhost:6379
+
+# External Services
+STRIPE_PUBLIC_KEY=pk_test_...
+SENTRY_DSN=https://...
+```
+
+### .editorconfig
+Konsistente Editor-Settings für das gesamte Team:
+```ini
+root = true
+
+[*]
+indent_style = space
+indent_size = 2
+end_of_line = lf
+charset = utf-8
+trim_trailing_whitespace = true
+insert_final_newline = true
+
+[*.md]
+trim_trailing_whitespace = false
+
+[*.{json,yml,yaml}]
+indent_size = 2
+```
+
+### .nvmrc
+Node-Version festlegen für Team-Konsistenz:
+```
+18.18.0
+```
+
+Usage: `nvm use` (oder automatisch mit nvm-Auto-Switch)
+
+## Git Hooks (mit Husky)
+
+### Setup Husky + lint-staged
+
+```bash
+# Installation
+pnpm add -D husky lint-staged
+
+# Init Husky
+npx husky init
+
+# Pre-Commit Hook erstellen
+echo "npx lint-staged" > .husky/pre-commit
+```
+
+### package.json - lint-staged Config
+
+```json
+{
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,md,html,css}": [
+      "prettier --write"
+    ]
+  }
+}
+```
+
+### Pre-Commit Hook (.husky/pre-commit)
+```bash
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+# Lint & Format nur geänderte Dateien
+npx lint-staged
+
+# Type-Check
+pnpm type-check
+```
+
+### Commit-Msg Hook (.husky/commit-msg)
+Prüft Conventional-Commits-Format:
+```bash
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+npx --no -- commitlint --edit $1
+```
+
+### commitlint.config.js
+```javascript
+module.exports = {
+  extends: ['@commitlint/config-conventional'],
+  rules: {
+    'type-enum': [
+      2,
+      'always',
+      [
+        'feat',     // Neue Feature
+        'fix',      // Bug-Fix
+        'docs',     // Dokumentation
+        'style',    // Formatierung
+        'refactor', // Code-Refactoring
+        'test',     // Tests hinzufügen/ändern
+        'chore',    // Build-Process, Dependencies
+        'perf',     // Performance-Verbesserung
+        'ci',       // CI/CD-Änderungen
+        'revert'    // Commit zurücknehmen
+      ]
+    ]
+  }
+};
+```
+
+### Pre-Push Hook (.husky/pre-push)
+Tests vor Push ausführen:
+```bash
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+# Tests müssen erfolgreich sein
+pnpm test
+
+# Build muss erfolgreich sein
+pnpm build
+```
+
+## Monorepo-Setup (Optional)
+
+Falls Monorepo mit mehreren Packages (z.B. Frontend + Backend + Shared):
+
+### Turborepo (Empfohlen)
+
+```bash
+# Installation
+pnpm add -D turbo
+
+# turbo.json
+{
+  "$schema": "https://turbo.build/schema.json",
+  "pipeline": {
+    "build": {
+      "dependsOn": ["^build"],
+      "outputs": ["dist/**", ".next/**"]
+    },
+    "test": {
+      "dependsOn": ["build"],
+      "cache": false
+    },
+    "lint": {
+      "cache": false
+    },
+    "dev": {
+      "cache": false,
+      "persistent": true
+    }
+  }
+}
+```
+
+### pnpm-workspace.yaml
+```yaml
+packages:
+  - 'apps/*'
+  - 'packages/*'
+```
+
+### Struktur
+```
+project/
+├── apps/
+│   ├── frontend/       # React-App
+│   └── backend/        # Node.js-API
+├── packages/
+│   ├── ui/            # Shared UI-Components
+│   ├── utils/         # Shared Utilities
+│   └── types/         # Shared TypeScript-Types
+├── turbo.json
+├── pnpm-workspace.yaml
+└── package.json
+```
+
 ## Quick Commands
 
 ```bash
@@ -194,6 +386,14 @@ pnpm lint             # Run ESLint
 pnpm lint:fix         # Fix ESLint issues
 pnpm format           # Format with Prettier
 pnpm type-check       # TypeScript type checking
+
+# Git Hooks
+pnpm prepare          # Setup Husky hooks (after npm install)
+
+# Monorepo (mit Turborepo)
+turbo run build       # Build all packages
+turbo run test --parallel  # Tests parallel
+turbo run lint --filter=frontend  # Nur Frontend linten
 ```
 
 ## Zusätzliche Ressourcen
