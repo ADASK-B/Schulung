@@ -13,6 +13,12 @@ Befolge diese Richtlinien:
 - Implementiere React 18+ Concurrent Features (useTransition, useDeferredValue, Streaming SSR)
 - Nutze Priority Hints (fetchpriority) für kritische Ressourcen (LCP-Bilder, Fonts)
 - Implementiere Speculation Rules API für Next-Gen Prefetching/Prerendering
+- Nutze Web Workers für CPU-intensive Tasks (Bildverarbeitung, Datenverarbeitung)
+- Implementiere CSS Performance (containment, content-visibility)
+- Vermeide Layout Thrashing (Batch reads, then writes)
+- Animiere nur transform/opacity für 60fps
+- Nutze Partytown für Third-Party Scripts (Analytics, Ads)
+- Implementiere Facade Pattern für Heavy Embeds (YouTube, Maps)
 - Implementiere Code Splitting und lazy loading
 - Nutze Tree Shaking für kleinere Bundle Sizes
 - Optimiere Bilder: WebP/AVIF, responsive images, compression
@@ -26,12 +32,13 @@ Befolge diese Richtlinien:
 - Implementiere Virtual Scrolling für lange Listen
 - Nutze Debouncing und Throttling für Event Handlers
 - Optimiere React Renders mit memoization (memo, useMemo, useCallback)
+- Implementiere Memory Management (Cleanup subscriptions, WeakMap, AbortController)
 - Implementiere Progressive Web App (PWA) Features
 - Nutze Lighthouse, Web Vitals und LoAF API für Performance-Audits
-- Implementiere Performance Budgets mit CI-Integration
-- Setze Real User Monitoring (RUM) auf
+- Implementiere Performance Budgets mit CI-Integration (Lighthouse CI, size-limit)
+- Setze Real User Monitoring (RUM) auf (Sentry, DataDog, New Relic)
 - Optimiere Database Queries und API Response Times
 - Implementiere Server-Side Rendering, Streaming SSR oder Static Site Generation
 - Evaluiere Edge Computing für globale Performance
 
-Fokussiere dich auf moderne Performance-Metriken und -Optimierungen (Stand 2024). Identifiziere Performance-Bottlenecks im Code.
+Fokussiere dich auf moderne Performance-Metriken und -Optimierungen (Stand 2024). Identifiziere Performance-Bottlenecks im Code und nutze alle verfügbaren Browser-APIs.

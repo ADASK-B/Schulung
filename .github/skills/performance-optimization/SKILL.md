@@ -485,6 +485,226 @@ app.use(compression({
 }));
 ```
 
+## 11a. Web Workers - Offload Heavy Computation
+
+Move CPU-intensive tasks off the main thread for better responsiveness:
+
+```typescript
+// Main thread - Non-blocking
+const worker = new Worker('/worker.js');
+
+worker.postMessage({ 
+  data: largeDataset,
+  operation: 'process'
+});
+
+worker.onmessage = (e) => {
+  updateUI(e.data); // Result comes back
+};
+
+worker.onerror = (error) => {
+  console.error('Worker error:', error);
+};
+
+// When done
+worker.terminate();
+```
+
+```javascript
+// worker.js - Runs in separate thread
+self.onmessage = (e) => {
+  const { data, operation } = e.data;
+  
+  // Expensive computation that won't block UI
+  const result = expensiveCalculation(data);
+  
+  self.postMessage(result);
+};
+
+function expensiveCalculation(data) {
+  // Image processing, data parsing, encryption, etc.
+  return processedData;
+}
+```
+
+**Use Cases:**
+- Image/video processing
+- Data parsing (large JSON/CSV)
+- Encryption/decryption
+- Complex calculations
+- Text analysis
+
+**Benefits:**
+- Main thread stays responsive
+- Better INP scores
+- Smooth animations during processing
+
+## 11b. CSS Performance
+
+### CSS Containment
+
+Isolate component rendering for better performance:
+
+```css
+/* Layout containment - Component doesn't affect outside layout */
+.card {
+  contain: layout;
+}
+
+/* Style containment - Component styles isolated */
+.widget {
+  contain: style;
+}
+
+/* Paint containment - Component paint isolated */
+.sidebar {
+  contain: paint;
+}
+
+/* Full containment (layout + style + paint) */
+.component {
+  contain: layout style paint;
+}
+```
+
+### content-visibility - Skip Rendering Off-Screen Content
+
+**Massive performance win for long pages:**
+
+```css
+/* Only render when in viewport */
+.feed-item {
+  content-visibility: auto;
+  contain-intrinsic-size: 0 400px; /* Reserve space to prevent layout shift */
+}
+
+/* For known-size items */
+.product-card {
+  content-visibility: auto;
+  contain-intrinsic-size: 300px 400px; /* width height */
+}
+```
+
+**Impact:** 40-50% faster initial render for pages with many off-screen elements
+
+### Avoid Layout Thrashing
+
+```typescript
+// ❌ BAD: Layout thrashing
+elements.forEach(el => {
+  const height = el.offsetHeight; // READ - forces layout
+  el.style.height = height + 10 + 'px'; // WRITE
+  // Browser recalculates layout after each write!
+});
+
+// ✅ GOOD: Batch reads, then writes
+const heights = elements.map(el => el.offsetHeight); // All READS first
+elements.forEach((el, i) => {
+  el.style.height = heights[i] + 10 + 'px'; // All WRITES after
+});
+```
+
+**Rule:** Never interleave reads and writes in loops
+
+### Animation Performance
+
+```css
+/* ✅ GOOD: Only animate transform & opacity (GPU-accelerated) */
+.animated {
+  will-change: transform;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+/* ❌ BAD: Animating layout properties (triggers reflow) */
+.bad-animation {
+  transition: width 0.3s, height 0.3s, top 0.3s, left 0.3s;
+}
+```
+
+**Rule:** Only animate `transform` and `opacity` for smooth 60fps animations
+
+## 11c. Third-Party Script Management
+
+Third-party scripts can block the main thread and hurt INP. Optimize them:
+
+### Partytown - Run Scripts in Web Worker
+
+```html
+<!-- Install: npm install @builder.io/partytown -->
+<script type="text/partytown">
+  // Google Analytics runs in Web Worker instead of main thread
+  gtag('config', 'GA_MEASUREMENT_ID');
+</script>
+
+<script type="text/partytown">
+  // Other third-party scripts
+  dataLayer.push({...});
+</script>
+```
+
+```typescript
+// vite.config.ts
+import { defineConfig } from 'vite';
+import { partytownVite } from '@builder.io/partytown/utils';
+
+export default defineConfig({
+  plugins: [
+    partytownVite({
+      dest: path.join(__dirname, 'dist', '~partytown'),
+    }),
+  ],
+});
+```
+
+**Benefits:**
+- 40-70% reduction in main thread blocking
+- Third-party scripts don't hurt INP
+- Main thread stays responsive
+
+### Facade Pattern for Heavy Embeds
+
+Replace heavy embeds (YouTube, maps) with lightweight facades:
+
+```html
+<!-- Before: Heavy YouTube embed (600KB+) -->
+<iframe width="560" height="315" src="https://www.youtube.com/embed/..."></iframe>
+
+<!-- After: Lightweight facade (loads on click) -->
+<lite-youtube videoid="dQw4w9WgXcQ"></lite-youtube>
+```
+
+```typescript
+// Install: npm install @justinribeiro/lite-youtube
+import '@justinribeiro/lite-youtube';
+
+// Or use react-lite-youtube-embed
+import LiteYouTubeEmbed from 'react-lite-youtube-embed';
+import 'react-lite-youtube-embed/dist/LiteYouTubeEmbed.css';
+
+<LiteYouTubeEmbed id="dQw4w9WgXcQ" title="Video title" />
+```
+
+**Benefits:**
+- 224x faster load (3KB vs 672KB)
+- Loads actual embed only on click
+- Better LCP and INP
+
+### Async/Defer for Scripts
+
+```html
+<!-- ❌ Blocks rendering -->
+<script src="/analytics.js"></script>
+
+<!-- ✅ Defers execution -->
+<script src="/analytics.js" defer></script>
+
+<!-- ✅ Async load (best for independent scripts) -->
+<script src="/analytics.js" async></script>
+
+<!-- ✅ Low priority -->
+<script src="/analytics.js" async fetchpriority="low"></script>
+```
+
 ## 12. Lighthouse Performance Audit
 
 Run Lighthouse and fix issues:
@@ -492,6 +712,9 @@ Run Lighthouse and fix issues:
 # Chrome DevTools: Lighthouse tab
 # Or CLI:
 npx lighthouse https://example.com --view
+
+# CI-friendly format
+npx lighthouse https://example.com --output json --output-path ./report.json
 ```
 
 **Common fixes:**
@@ -502,6 +725,137 @@ npx lighthouse https://example.com --view
 - Enable text compression
 - Properly size images
 - Eliminate render-blocking resources
+
+## 12a. Performance Budgets & CI/CD Integration
+
+Prevent performance regressions by enforcing budgets in CI:
+
+### Lighthouse CI Configuration
+
+```json
+// lighthouse-ci.json
+{
+  "ci": {
+    "collect": {
+      "numberOfRuns": 3,
+      "url": ["http://localhost:3000"]
+    },
+    "assert": {
+      "assertions": {
+        "categories:performance": ["error", {"minScore": 0.9}],
+        "categories:accessibility": ["error", {"minScore": 0.9}],
+        "first-contentful-paint": ["error", {"maxNumericValue": 2000}],
+        "largest-contentful-paint": ["error", {"maxNumericValue": 2500}],
+        "interactive": ["error", {"maxNumericValue": 3000}],
+        "cumulative-layout-shift": ["error", {"maxNumericValue": 0.1}],
+        "total-blocking-time": ["error", {"maxNumericValue": 300}]
+      }
+    },
+    "upload": {
+      "target": "temporary-public-storage"
+    }
+  }
+}
+```
+
+### GitHub Actions Integration
+
+```yaml
+# .github/workflows/performance.yml
+name: Performance Budget
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  lighthouse:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Build
+        run: npm run build
+      
+      - name: Serve
+        run: npm run preview &
+        
+      - name: Wait for server
+        run: npx wait-on http://localhost:3000
+      
+      - name: Run Lighthouse CI
+        uses: treosh/lighthouse-ci-action@v10
+        with:
+          configPath: './lighthouse-ci.json'
+          uploadArtifacts: true
+          temporaryPublicStorage: true
+```
+
+### Bundle Size Budgets
+
+```json
+// package.json
+{
+  "budgets": [
+    {
+      "path": "dist/**/*.js",
+      "limit": "250 KB",
+      "gzip": true
+    },
+    {
+      "path": "dist/**/*.css",
+      "limit": "50 KB",
+      "gzip": true
+    }
+  ]
+}
+```
+
+```typescript
+// vite.config.ts - Bundle size warnings
+import { defineConfig } from 'vite';
+
+export default defineConfig({
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vendor: ['react', 'react-dom'],
+          utils: ['lodash-es', 'date-fns']
+        }
+      }
+    },
+    // Warn on chunks > 500KB
+    chunkSizeWarningLimit: 500
+  }
+});
+```
+
+### Fail CI on Performance Regression
+
+```bash
+# Install
+npm install --save-dev size-limit @size-limit/preset-app
+
+# package.json
+{
+  "scripts": {
+    "size": "size-limit"
+  },
+  "size-limit": [
+    {
+      "path": "dist/**/*.js",
+      "limit": "250 KB"
+    }
+  ]
+}
+
+# In CI
+npm run size # Fails if bundle exceeds limit
+```
 
 ## 13. Performance Monitoring
 
@@ -564,6 +918,141 @@ const observer = new PerformanceObserver((list) => {
 observer.observe({ entryTypes: ['navigation', 'resource'] });
 ```
 
+### Real User Monitoring (RUM)
+
+Track performance in production with real user data:
+
+```typescript
+// Send metrics to analytics
+import { onCLS, onINP, onLCP } from 'web-vitals';
+
+function sendToAnalytics(metric) {
+  const body = JSON.stringify({
+    name: metric.name,
+    value: metric.value,
+    rating: metric.rating,
+    delta: metric.delta,
+    id: metric.id,
+    navigationType: metric.navigationType,
+    // Add custom dimensions
+    page: window.location.pathname,
+    userAgent: navigator.userAgent,
+    connection: navigator.connection?.effectiveType
+  });
+  
+  // Use sendBeacon for reliability
+  navigator.sendBeacon('/analytics', body);
+}
+
+onCLS(sendToAnalytics);
+onINP(sendToAnalytics);
+onLCP(sendToAnalytics);
+```
+
+**RUM Solutions:**
+- **Sentry Performance Monitoring**
+- **DataDog RUM**
+- **New Relic Browser**
+- **Google Analytics 4** (basic)
+- **Vercel Analytics**
+
+## 13a. Memory Optimization
+
+Prevent memory leaks and optimize memory usage:
+
+### Cleanup Effects
+
+```typescript
+// ❌ BAD: Memory leak (subscription not cleaned)
+useEffect(() => {
+  const subscription = observable.subscribe(handleData);
+  // Missing cleanup!
+}, []);
+
+// ✅ GOOD: Proper cleanup
+useEffect(() => {
+  const subscription = observable.subscribe(handleData);
+  
+  return () => {
+    subscription.unsubscribe(); // Cleanup!
+  };
+}, []);
+
+// ✅ GOOD: Event listener cleanup
+useEffect(() => {
+  const handleScroll = () => console.log('scroll');
+  
+  window.addEventListener('scroll', handleScroll);
+  
+  return () => {
+    window.removeEventListener('scroll', handleScroll);
+  };
+}, []);
+```
+
+### WeakMap for Caching
+
+Prevent memory leaks with WeakMap:
+
+```typescript
+// ❌ BAD: Map prevents garbage collection
+const cache = new Map();
+function getCachedData(obj) {
+  if (!cache.has(obj)) {
+    cache.set(obj, expensiveComputation(obj));
+  }
+  return cache.get(obj);
+}
+
+// ✅ GOOD: WeakMap allows garbage collection
+const cache = new WeakMap();
+function getCachedData(obj) {
+  if (!cache.has(obj)) {
+    cache.set(obj, expensiveComputation(obj));
+  }
+  return cache.get(obj);
+}
+// When obj is no longer referenced, it can be garbage collected
+```
+
+### Abort Controllers for Fetch
+
+```typescript
+// Cancel in-flight requests to prevent memory waste
+useEffect(() => {
+  const controller = new AbortController();
+  
+  fetch('/api/data', { signal: controller.signal })
+    .then(res => res.json())
+    .then(setData)
+    .catch(err => {
+      if (err.name !== 'AbortError') {
+        console.error(err);
+      }
+    });
+  
+  return () => {
+    controller.abort(); // Cancel request on unmount
+  };
+}, []);
+```
+
+### Avoid Large Objects in State
+
+```typescript
+// ❌ BAD: Storing large objects in state
+const [users, setUsers] = useState(largeUserArray); // 10,000 items
+
+// ✅ GOOD: Use IndexedDB or external cache
+import { useQuery } from '@tanstack/react-query';
+
+const { data: users } = useQuery({
+  queryKey: ['users'],
+  queryFn: fetchUsers,
+  staleTime: 5 * 60 * 1000, // Cache for 5 minutes
+});
+```
+
 ## 14. Optimization Checklist
 
 ### 🎯 Core Web Vitals (Updated 2024)
@@ -591,6 +1080,13 @@ observer.observe({ entryTypes: ['navigation', 'resource'] });
 - [ ] Implement `useDeferredValue` for expensive renders ✅ New
 - [ ] Use Streaming SSR with Suspense ✅ New
 - [ ] Implement virtual scrolling for long lists
+- [ ] Use Web Workers for CPU-intensive tasks ✅ New
+
+### 🎨 CSS & Rendering
+- [ ] Use CSS containment (`contain: layout style paint`) ✅ New
+- [ ] Implement `content-visibility: auto` for off-screen content ✅ New
+- [ ] Avoid layout thrashing (batch reads, then writes) ✅ New
+- [ ] Only animate transform/opacity (GPU-accelerated) ✅ New
 
 ### 🌐 Network & Caching
 - [ ] Add HTTP caching headers
@@ -610,12 +1106,25 @@ observer.observe({ entryTypes: ['navigation', 'resource'] });
 - [ ] Use passive event listeners
 - [ ] Optimize event handlers (avoid layout thrashing)
 
+### 🔌 Third-Party Scripts
+- [ ] Use Partytown for analytics/ads ✅ New
+- [ ] Implement facade pattern for heavy embeds (YouTube, maps) ✅ New
+- [ ] Async/defer all third-party scripts ✅ New
+- [ ] Use `fetchpriority="low"` for non-critical scripts ✅ New
+
+### 💾 Memory Management
+- [ ] Cleanup subscriptions in useEffect ✅ New
+- [ ] Use WeakMap for object caching ✅ New
+- [ ] Abort in-flight requests on unmount ✅ New
+- [ ] Avoid storing large objects in state ✅ New
+
 ### 📊 Monitoring & Audits
 - [ ] Run Lighthouse audit (target score > 90)
 - [ ] Monitor Core Web Vitals in production
-- [ ] Set up performance budgets ✅ New
+- [ ] Set up performance budgets with CI ✅ New
 - [ ] Use LoAF API for INP debugging ✅ New
 - [ ] Implement Real User Monitoring (RUM) ✅ New
+- [ ] Track bundle size in CI ✅ New
 
 ### 🚀 Modern APIs
 - [ ] Priority Hints for critical resources ✅ New
