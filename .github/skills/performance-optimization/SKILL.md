@@ -9,9 +9,25 @@ Follow this guide to optimize web performance and Core Web Vitals:
 
 ## 1. Core Web Vitals Targets
 
+> ⚠️ **Important Update (March 2024):** FID has been replaced with INP as a Core Web Vital.
+
 **Largest Contentful Paint (LCP):** < 2.5s
-**First Input Delay (FID):** < 100ms
+- Good: < 2.5s
+- Needs Improvement: 2.5-4.0s
+- Poor: > 4.0s
+
+**Interaction to Next Paint (INP):** < 200ms
+- Good: < 200ms
+- Needs Improvement: 200-500ms
+- Poor: > 500ms
+
 **Cumulative Layout Shift (CLS):** < 0.1
+- Good: < 0.1
+- Needs Improvement: 0.1-0.25
+- Poor: > 0.25
+
+**What is INP?**
+INP measures the responsiveness of ALL user interactions throughout the entire page lifetime (clicks, taps, keyboard input). Unlike FID which only measured the first interaction, INP captures the full latency including processing and rendering time.
 
 ## 2. Code Splitting & Lazy Loading
 
@@ -141,6 +157,104 @@ function VirtualList({ items }) {
 }
 ```
 
+### React 18+ Concurrent Features
+
+React 18 introduced powerful concurrent features for better perceived performance:
+
+#### useTransition - Non-Blocking Updates
+```typescript
+import { useState, useTransition } from 'react';
+
+function SearchComponent() {
+  const [isPending, startTransition] = useTransition();
+  const [query, setQuery] = useState('');
+  const [results, setResults] = useState([]);
+  
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    
+    // Non-urgent update won't block typing
+    startTransition(() => {
+      setQuery(value);
+      setResults(expensiveFilter(value));
+    });
+  };
+  
+  return (
+    <>
+      <input onChange={handleChange} placeholder="Search..." />
+      {isPending && <Spinner />}
+      <Results data={results} />
+    </>
+  );
+}
+```
+
+**Benefits:**
+- Input stays responsive even during expensive updates
+- Better user experience than debouncing
+- Shows loading state automatically
+
+#### useDeferredValue - Debounce Expensive Renders
+```typescript
+import { useDeferredValue, useMemo } from 'react';
+
+function ProductList({ searchQuery }: { searchQuery: string }) {
+  // Defer expensive computation
+  const deferredQuery = useDeferredValue(searchQuery);
+  
+  const filteredProducts = useMemo(() => 
+    products.filter(p => p.name.includes(deferredQuery)),
+    [deferredQuery]
+  );
+  
+  return (
+    <div>
+      {filteredProducts.map(product => (
+        <ProductCard key={product.id} product={product} />
+      ))}
+    </div>
+  );
+}
+```
+
+**Benefits:**
+- React automatically deprioritizes the update
+- UI stays responsive to user input
+- No manual debouncing needed
+
+#### Streaming SSR with Suspense
+```typescript
+// app/page.tsx (Next.js 13+)
+import { Suspense } from 'react';
+
+export default function Page() {
+  return (
+    <>
+      <Header />
+      <Suspense fallback={<Skeleton />}>
+        <SlowDataComponent />
+      </Suspense>
+      <Suspense fallback={<Skeleton />}>
+        <AnotherSlowComponent />
+      </Suspense>
+      <Footer />
+    </>
+  );
+}
+
+// Component with async data
+async function SlowDataComponent() {
+  const data = await fetchData(); // Can be slow
+  return <div>{data}</div>;
+}
+```
+
+**Benefits:**
+- Page loads progressively (header/footer show immediately)
+- No blocking on slow data fetching
+- Better LCP and FCP metrics
+
 ## 6. Caching Strategies
 
 ### HTTP Caching
@@ -199,7 +313,45 @@ module.exports = {
 </style>
 ```
 
-## 8. Resource Hints
+## 8. Resource Hints & Priority
+
+### Priority Hints (fetchpriority)
+
+Control resource loading priority for better LCP:
+
+```html
+<!-- High priority: LCP image loads first -->
+<img 
+  src="/hero.jpg" 
+  alt="Hero" 
+  fetchpriority="high"
+  width="1200"
+  height="600"
+/>
+
+<!-- High priority: Critical font -->
+<link 
+  rel="preload" 
+  href="/fonts/Inter-Bold.woff2" 
+  as="font" 
+  type="font/woff2"
+  fetchpriority="high"
+  crossorigin
+/>
+
+<!-- Low priority: Non-critical resources -->
+<script src="/analytics.js" fetchpriority="low" async></script>
+<img src="/footer-logo.png" alt="Logo" fetchpriority="low" />
+
+<!-- Auto priority (default) -->
+<link rel="stylesheet" href="/styles.css" fetchpriority="auto" />
+```
+
+**Browser Support:** Chrome 101+, Edge 101+, Safari 17.2+
+
+**Impact:** Can improve LCP by 5-20% by prioritizing critical resources
+
+### Traditional Resource Hints
 
 ```html
 <!-- Preconnect to third-party origins -->
@@ -213,6 +365,66 @@ module.exports = {
 <link rel="preload" href="/critical.css" as="style" />
 <link rel="preload" href="/hero.jpg" as="image" />
 ```
+
+### Speculation Rules API (Next-Gen Prefetching)
+
+Modern, privacy-aware prefetching that's more powerful than `<link rel="prefetch">`:
+
+```html
+<!-- Prefetch product pages when hovering over links -->
+<script type="speculationrules">
+{
+  "prefetch": [{
+    "source": "document",
+    "where": {
+      "selector_matches": "a[href^='/products/']"
+    },
+    "eagerness": "moderate"
+  }]
+}
+</script>
+
+<!-- Prerender dashboard for instant navigation -->
+<script type="speculationrules">
+{
+  "prerender": [{
+    "source": "list",
+    "urls": ["/dashboard"]
+  }]
+}
+</script>
+
+<!-- Prefetch on hover with custom rules -->
+<script type="speculationrules">
+{
+  "prefetch": [{
+    "source": "document",
+    "where": {
+      "and": [
+        { "href_matches": "/blog/*" },
+        { "not": { "href_matches": "/blog/admin/*" } }
+      ]
+    },
+    "eagerness": "conservative"
+  }]
+}
+</script>
+```
+
+**Eagerness levels:**
+- `immediate` - Prefetch right away
+- `eager` - Prefetch when link appears in viewport
+- `moderate` - Prefetch on 200ms hover (default)
+- `conservative` - Prefetch on pointer down
+
+**Benefits:**
+- **0-100ms navigation** with prerender
+- Privacy-aware (respects user settings)
+- Smart resource management
+- Better than `<link rel="prefetch">`
+
+**Browser Support:** Chrome 109+, Edge 109+
+
 
 ## 9. Debouncing & Throttling
 
@@ -293,15 +505,56 @@ npx lighthouse https://example.com --view
 
 ## 13. Performance Monitoring
 
+### Web Vitals (Updated 2024)
 ```typescript
-// Web Vitals
-import { getCLS, getFID, getLCP } from 'web-vitals';
+// Monitor Core Web Vitals
+import { onCLS, onINP, onLCP } from 'web-vitals';
 
-getCLS(console.log);
-getFID(console.log);
-getLCP(console.log);
+onCLS(console.log);
+onINP(console.log); // ✅ Updated: was getFID
+onLCP(console.log);
 
-// Performance API
+// Send to analytics
+onINP((metric) => {
+  const body = JSON.stringify(metric);
+  navigator.sendBeacon('/analytics', body);
+});
+```
+
+### Long Animation Frames (LoAF) API - Debug Poor INP
+
+Essential for identifying what causes slow interactions:
+
+```typescript
+// Monitor long animation frames (> 50ms)
+const loafObserver = new PerformanceObserver((list) => {
+  for (const entry of list.getEntries()) {
+    if (entry.duration > 50) {
+      console.warn('Long animation frame detected:', {
+        duration: entry.duration,
+        blockingDuration: entry.blockingDuration,
+        renderStart: entry.renderStart,
+        scripts: entry.scripts?.map(script => ({
+          url: script.sourceURL,
+          duration: script.duration,
+          invoker: script.invoker
+        }))
+      });
+    }
+  }
+});
+
+loafObserver.observe({ type: 'long-animation-frame', buffered: true });
+```
+
+**Use LoAF to:**
+- Identify which scripts cause slow interactions
+- Find render-blocking code
+- Debug poor INP scores
+- Optimize event handlers
+
+### Performance API
+```typescript
 const observer = new PerformanceObserver((list) => {
   for (const entry of list.getEntries()) {
     console.log(entry.name, entry.startTime);
@@ -313,18 +566,58 @@ observer.observe({ entryTypes: ['navigation', 'resource'] });
 
 ## 14. Optimization Checklist
 
-- [ ] Lazy load routes and heavy components
+### 🎯 Core Web Vitals (Updated 2024)
+- [ ] LCP < 2.5s (Largest Contentful Paint)
+- [ ] INP < 200ms (Interaction to Next Paint) ✅ Updated from FID
+- [ ] CLS < 0.1 (Cumulative Layout Shift)
+- [ ] Monitor with `web-vitals` library (`onLCP`, `onINP`, `onCLS`)
+- [ ] Use LoAF API to debug poor INP scores ✅ New
+
+### 📦 Assets & Resources
 - [ ] Optimize images (WebP/AVIF, responsive, lazy load)
+- [ ] Use Priority Hints (`fetchpriority="high"` for LCP image) ✅ New
+- [ ] Optimize fonts (woff2, `font-display: swap` or `optional`) ✅ Enhanced
+- [ ] Enable Brotli compression (better than gzip)
+- [ ] Use CDN for static assets
+- [ ] Preload critical resources
+- [ ] Implement Speculation Rules API for instant navigation ✅ New
+
+### ⚛️ React & Code
+- [ ] Lazy load routes and heavy components
 - [ ] Enable code splitting
 - [ ] Minimize bundle size (tree shaking)
 - [ ] Use React.memo for expensive components
+- [ ] Implement `useTransition` for non-blocking updates ✅ New
+- [ ] Implement `useDeferredValue` for expensive renders ✅ New
+- [ ] Use Streaming SSR with Suspense ✅ New
 - [ ] Implement virtual scrolling for long lists
+
+### 🌐 Network & Caching
 - [ ] Add HTTP caching headers
-- [ ] Preload critical resources
-- [ ] Optimize fonts (woff2, font-display: swap)
-- [ ] Enable compression (gzip/brotli)
-- [ ] Add database indexes
-- [ ] Debounce/throttle event handlers
-- [ ] Run Lighthouse audit
-- [ ] Monitor Core Web Vitals
-- [ ] Use CDN for static assets
+- [ ] Implement Service Worker (PWA)
+- [ ] Preconnect to third-party origins
+- [ ] Use resource hints (preload, prefetch, dns-prefetch)
+
+### 🗄️ Database & Backend
+- [ ] Add database indexes for frequent queries
+- [ ] Prevent N+1 query problem
+- [ ] Implement connection pooling
+- [ ] Optimize API response times
+
+### ⚡ Events & Interactions
+- [ ] Debounce inputs (300ms)
+- [ ] Throttle scroll/resize handlers (100ms)
+- [ ] Use passive event listeners
+- [ ] Optimize event handlers (avoid layout thrashing)
+
+### 📊 Monitoring & Audits
+- [ ] Run Lighthouse audit (target score > 90)
+- [ ] Monitor Core Web Vitals in production
+- [ ] Set up performance budgets ✅ New
+- [ ] Use LoAF API for INP debugging ✅ New
+- [ ] Implement Real User Monitoring (RUM) ✅ New
+
+### 🚀 Modern APIs
+- [ ] Priority Hints for critical resources ✅ New
+- [ ] Speculation Rules for prefetching/prerendering ✅ New
+- [ ] View Transitions API (optional) ✅ New
