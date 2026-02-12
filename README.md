@@ -2,6 +2,12 @@
 
 Ein modulares Framework für die Koordination spezialisierter KI-Agents bei komplexen Web-Entwicklungsaufgaben.
 
+## 🚀 Aktuelle Projekte
+
+**TRUMPF Landing Page** ([Issue #4](https://github.com/ADASK-B/Schulung/issues/4))
+- 📋 [Vollständige Task-Liste](TRUMPF-LANDING-PAGE-TASKS.md) - Alle Sub-Tasks im Detail
+- 🎯 [Nächste Schritte](NEXT-STEPS.md) - Was kommt als Nächstes? Quick Start Guide
+
 ## Übersicht
 
 Dieses Repository ist **kein Code-Projekt**, sondern ein **Meta-Framework** für AI-Agents. Es enthält:
