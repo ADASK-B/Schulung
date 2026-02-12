@@ -1,0 +1,92 @@
+# robots.txt für www.trumpf.com
+# Optimiertes Crawling für Suchmaschinen
+# Stand: 12. Februar 2026
+
+User-agent: *
+Allow: /
+
+# Sitemap Location
+Sitemap: https://www.trumpf.com/sitemap.xml
+
+# Crawl Delay für alle Bots (höfliches Crawling)
+Crawl-delay: 1
+
+# Ausgeschlossene Bereiche (falls vorhanden)
+# Disallow: /admin/
+# Disallow: /private/
+# Disallow: /temp/
+# Disallow: /*.pdf$
+
+# Spezifische Bot-Regeln
+
+# Google Bot
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 0.5
+
+# Bing Bot
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1
+
+# Yandex Bot
+User-agent: Yandex
+Allow: /
+Crawl-delay: 2
+
+# Baidu Bot (China)
+User-agent: Baiduspider
+Allow: /
+Crawl-delay: 2
+
+# Bad Bots blockieren (bekannte Scraper)
+User-agent: AhrefsBot
+Crawl-delay: 10
+
+User-agent: SemrushBot
+Crawl-delay: 10
+
+User-agent: MJ12bot
+Crawl-delay: 10
+
+User-agent: DotBot
+Crawl-delay: 10
+
+# Aggressive Scrapers komplett blockieren
+User-agent: MegaIndex
+Disallow: /
+
+User-agent: BLEXBot
+Disallow: /
+
+User-agent: PetalBot
+Disallow: /
+
+# Image Bots erlauben
+User-agent: Googlebot-Image
+Allow: /assets/images/
+
+User-agent: Bingbot-Image
+Allow: /assets/images/
+
+# Social Media Bots (für Rich Previews)
+User-agent: facebookexternalhit
+Allow: /
+
+User-agent: Twitterbot
+Allow: /
+
+User-agent: LinkedInBot
+Allow: /
+
+User-agent: WhatsApp
+Allow: /
+
+# Suchmaschinen-Features
+# Google Mobile-Friendly Test
+User-agent: Google-InspectionTool
+Allow: /
+
+# Google PageSpeed Insights
+User-agent: Google Page Speed Insights
+Allow: /

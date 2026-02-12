@@ -29,7 +29,8 @@
   <meta name="apple-mobile-web-app-title" content="TRUMPF">
 
   <!-- Security Headers -->
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self'; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self';">
+  <!-- CSP: 'unsafe-inline' for script-src needed for JSON-LD structured data (SEO). Style-src uses external CSS only. -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self'; img-src 'self' data: https:; font-src 'self'; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests;">
   <meta http-equiv="X-Content-Type-Options" content="nosniff">
   <meta http-equiv="X-Frame-Options" content="DENY">
   <meta http-equiv="X-XSS-Protection" content="1; mode=block">
@@ -180,11 +181,12 @@
 
         <nav class="main-nav" aria-label="Hauptnavigation">
           <ul class="nav-list">
-            <li class="nav-item"><a href="/produkte" class="nav-link">Produkte</a></li>
-            <li class="nav-item"><a href="/loesungen" class="nav-link">Lösungen</a></li>
-            <li class="nav-item"><a href="/service" class="nav-link">Service</a></li>
-            <li class="nav-item"><a href="/unternehmen" class="nav-link">Unternehmen</a></li>
-            <li class="nav-item"><a href="/karriere" class="nav-link">Karriere</a></li>
+            <li class="nav-item"><a href="index.html" class="nav-link" data-page="index">Home</a></li>
+            <li class="nav-item"><a href="produkte.html" class="nav-link" data-page="produkte">Produkte</a></li>
+            <li class="nav-item"><a href="loesungen.html" class="nav-link" data-page="loesungen">Lösungen</a></li>
+            <li class="nav-item"><a href="service.html" class="nav-link" data-page="service">Service</a></li>
+            <li class="nav-item"><a href="unternehmen.html" class="nav-link" data-page="unternehmen">Unternehmen</a></li>
+            <li class="nav-item"><a href="karriere.html" class="nav-link" data-page="karriere">Karriere</a></li>
           </ul>
         </nav>
       </div>
@@ -227,7 +229,7 @@
               Hochpräzise CNC-Stanz- und Schneidtechnologie für die professionelle Blechbearbeitung.
               Unsere intelligenten Werkzeugmaschinen setzen Maßstäbe in Effizienz, Qualität und Industrie 4.0-Integration.
             </p>
-            <a href="/produkte/werkzeugmaschinen" class="feature-link">Mehr erfahren</a>
+            <a href="/produkte/werkzeugmaschinen" class="feature-link" aria-label="Mehr erfahren über TRUMPF Werkzeugmaschinen">Mehr erfahren</a>
           </article>
 
           <!-- Feature 2: Lasertechnik -->
@@ -240,7 +242,7 @@
               Innovative Lasersysteme und Laserschneid-Lösungen für vielfältige Anwendungen in der Industrie und Medizintechnik.
               Weltweit führend in der Laserfertigungstechnologie und Lasermaterialbearbeitung.
             </p>
-            <a href="/produkte/lasertechnik" class="feature-link">Mehr erfahren</a>
+            <a href="/produkte/lasertechnik" class="feature-link" aria-label="Mehr erfahren über TRUMPF Lasertechnik">Mehr erfahren</a>
           </article>
 
           <!-- Feature 3: Elektronik -->
@@ -253,7 +255,7 @@
               Hochleistungselektronik für die Telekommunikation, Industrie 4.0 und Smart Factory.
               Von intelligenter Leistungselektronik bis zu IoT-fähigen Steuerungssystemen.
             </p>
-            <a href="/produkte/elektronik" class="feature-link">Mehr erfahren</a>
+            <a href="/produkte/elektronik" class="feature-link" aria-label="Mehr erfahren über TRUMPF Elektronik">Mehr erfahren</a>
           </article>
         </div>
       </div>
@@ -279,7 +281,7 @@
               <li class="innovation-highlight-item">9% des Umsatzes fließen in F&E</li>
               <li class="innovation-highlight-item">Familienunternehmen seit 1923</li>
             </ul>
-            <a href="/innovation" class="btn btn-primary">Innovationskraft entdecken</a>
+            <a href="/innovation" class="btn btn-primary" aria-label="TRUMPF Innovationskraft und Forschung entdecken">Innovationskraft entdecken</a>
           </div>
 
           <div class="innovation-media">
@@ -303,8 +305,8 @@
           <h2 id="cta-heading" class="cta-title">Bereit für Industrie 4.0 und Smart Factory?</h2>
           <p class="cta-description">Entdecken Sie, wie TRUMPF Werkzeugmaschinen und Lasertechnik Ihr Unternehmen in die digitale Zukunft führen.</p>
           <div class="cta-actions">
-            <a href="/kontakt" class="btn btn-primary">Kontakt aufnehmen</a>
-            <a href="/beratung" class="btn btn-secondary">Beratung anfordern</a>
+            <a href="/kontakt" class="btn btn-primary" aria-label="Kontakt zu TRUMPF aufnehmen für Industrie 4.0 Lösungen">Kontakt aufnehmen</a>
+            <a href="/beratung" class="btn btn-secondary" aria-label="Persönliche Beratung zu TRUMPF Produkten anfordern">Beratung anfordern</a>
           </div>
         </div>
       </div>

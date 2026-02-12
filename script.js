@@ -1,7 +1,97 @@
 /**
  * TRUMPF Website - Main JavaScript
  * Handles mobile navigation, smooth scrolling, and header behavior
+ *
+ * Security Features:
+ * - Input sanitization utilities for XSS prevention
+ * - Safe DOM manipulation (no innerHTML with unsanitized input)
+ * - Error boundary for robust error handling
+ * - External links security (noopener noreferrer)
  */
+
+// ============================================================================
+// SECURITY UTILITIES
+// ============================================================================
+
+/**
+ * Sanitize HTML to prevent XSS attacks
+ * @param {string} html - HTML string to sanitize
+ * @returns {string} Sanitized HTML
+ */
+const sanitizeHTML = (html) => {
+  if (typeof html !== 'string') return '';
+
+  const div = document.createElement('div');
+  div.textContent = html; // textContent automatically escapes HTML
+  return div.innerHTML;
+};
+
+/**
+ * Validate email format
+ * @param {string} email - Email to validate
+ * @returns {boolean} True if valid email
+ */
+const isValidEmail = (email) => {
+  if (typeof email !== 'string') return false;
+
+  // RFC 5322 simplified email regex
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email) && email.length <= 255;
+};
+
+/**
+ * Validate URL format
+ * @param {string} url - URL to validate
+ * @returns {boolean} True if valid URL
+ */
+const isValidURL = (url) => {
+  if (typeof url !== 'string') return false;
+
+  try {
+    const urlObj = new URL(url);
+    return urlObj.protocol === 'http:' || urlObj.protocol === 'https:';
+  } catch {
+    return false;
+  }
+};
+
+/**
+ * Sanitize user input (remove HTML tags and dangerous characters)
+ * @param {string} input - User input to sanitize
+ * @returns {string} Sanitized input
+ */
+const sanitizeInput = (input) => {
+  if (typeof input !== 'string') return '';
+
+  return input
+    .trim()
+    .replace(/[<>]/g, '') // Remove angle brackets
+    .replace(/javascript:/gi, '') // Remove javascript: protocol
+    .replace(/on\w+\s*=/gi, '') // Remove event handlers
+    .substring(0, 1000); // Limit length
+};
+
+/**
+ * Log error securely (no sensitive data exposure)
+ * @param {string} context - Context where error occurred
+ * @param {Error} error - Error object
+ */
+const logError = (context, error) => {
+  // In production: Send to error monitoring service (e.g., Sentry)
+  // Never expose stack traces or sensitive data to users
+
+  if (process?.env?.NODE_ENV === 'development') {
+    console.error(`[${context}]`, {
+      message: error.message,
+      name: error.name,
+      // Stack trace only in development
+      stack: error.stack
+    });
+  } else {
+    // Production: Silent fail or generic message
+    // Log to monitoring service here
+  }
+};
 
 // ============================================================================
 // UTILITY FUNCTIONS
@@ -266,13 +356,13 @@ const initHeaderScrollBehavior = () => {
 };
 
 // ============================================================================
-// ACTIVE NAVIGATION LINK
+// ACTIVE NAVIGATION LINK (Scroll-based for single-page)
 // ============================================================================
 
 /**
- * Update active navigation link based on scroll position
+ * Update active navigation link based on scroll position (for anchor links)
  */
-const initActiveNavigation = () => {
+const initScrollBasedActiveNavigation = () => {
   const navLinks = getElements('.nav-link');
 
   if (navLinks.length === 0) return;
@@ -300,7 +390,7 @@ const initActiveNavigation = () => {
       }
     });
 
-    // Update active state on nav links
+    // Update active state on nav links (only for anchor links)
     navLinks.forEach((link) => {
       const href = link.getAttribute('href');
 
@@ -327,6 +417,65 @@ const initActiveNavigation = () => {
 
   // Run once on load
   updateActiveLink();
+};
+
+// ============================================================================
+// ACTIVE NAVIGATION LINK (Page-based for multi-page)
+// ============================================================================
+
+/**
+ * Set active navigation link based on current page
+ * Works for multi-page websites with separate HTML files
+ */
+const initPageBasedActiveNavigation = () => {
+  const navLinks = getElements('.nav-link');
+
+  if (navLinks.length === 0) return;
+
+  /**
+   * Get current page name from URL
+   * @returns {string} Current page name without extension
+   */
+  const getCurrentPage = () => {
+    const pathname = window.location.pathname;
+    const filename = pathname.split('/').pop();
+
+    // Handle root path or empty filename (defaults to index)
+    if (!filename || filename === '' || filename === '/') {
+      return 'index';
+    }
+
+    // Remove .html extension if present
+    return filename.replace('.html', '');
+  };
+
+  const currentPage = getCurrentPage();
+
+  /**
+   * Update active state on navigation links
+   */
+  navLinks.forEach((link) => {
+    const href = link.getAttribute('href');
+    const pageName = link.getAttribute('data-page');
+
+    // Skip anchor links (handled by scroll-based navigation)
+    if (href && href.startsWith('#')) {
+      return;
+    }
+
+    // Check if this link points to the current page
+    const isCurrentPage = pageName === currentPage ||
+                          href === `${currentPage}.html` ||
+                          (currentPage === 'index' && (href === '/' || href === 'index.html'));
+
+    if (isCurrentPage) {
+      link.classList.add('active');
+      link.setAttribute('aria-current', 'page');
+    } else {
+      link.classList.remove('active');
+      link.removeAttribute('aria-current');
+    }
+  });
 };
 
 // ============================================================================
@@ -389,14 +538,44 @@ const logPerformanceMetrics = () => {
 const init = () => {
   try {
     initMobileNavigation();
+  } catch (error) {
+    logError('initMobileNavigation', error);
+  }
+
+  try {
     initSmoothScrolling();
+  } catch (error) {
+    logError('initSmoothScrolling', error);
+  }
+
+  try {
     initHeaderScrollBehavior();
-    initActiveNavigation();
+  } catch (error) {
+    logError('initHeaderScrollBehavior', error);
+  }
+
+  try {
+    initPageBasedActiveNavigation(); // Multi-page navigation (primary)
+  } catch (error) {
+    logError('initPageBasedActiveNavigation', error);
+  }
+
+  try {
+    initScrollBasedActiveNavigation(); // Single-page anchor navigation (secondary)
+  } catch (error) {
+    logError('initScrollBasedActiveNavigation', error);
+  }
+
+  try {
     initExternalLinks();
+  } catch (error) {
+    logError('initExternalLinks', error);
+  }
+
+  try {
     logPerformanceMetrics();
   } catch (error) {
-    // Error handling: Fail silently in production
-    // Use error monitoring service (e.g., Sentry) for production error tracking
+    logError('logPerformanceMetrics', error);
   }
 };
 
@@ -411,10 +590,18 @@ if (document.readyState === 'loading') {
 // Export for potential module usage
 if (typeof module !== 'undefined' && module.exports) {
   module.exports = {
+    // Initialization functions
     init,
     initMobileNavigation,
     initSmoothScrolling,
     initHeaderScrollBehavior,
-    initActiveNavigation
+    initPageBasedActiveNavigation,
+    initScrollBasedActiveNavigation,
+    // Security utilities
+    sanitizeHTML,
+    sanitizeInput,
+    isValidEmail,
+    isValidURL,
+    logError
   };
 }

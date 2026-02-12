@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+
+  <!-- Homepage -->
+  <url>
+    <loc>https://www.trumpf.com/</loc>
+    <lastmod>2026-02-12</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.trumpf.com/de/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.trumpf.com/en/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.trumpf.com/fr/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.trumpf.com/" />
+  </url>
+
+  <!-- Produkte -->
+  <url>
+    <loc>https://www.trumpf.com/produkte</loc>
+    <lastmod>2026-02-12</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.trumpf.com/de/produkte" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.trumpf.com/en/products" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.trumpf.com/produkte" />
+  </url>
+
+  <!-- Lösungen -->
+  <url>
+    <loc>https://www.trumpf.com/loesungen</loc>
+    <lastmod>2026-02-12</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.trumpf.com/de/loesungen" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.trumpf.com/en/solutions" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.trumpf.com/loesungen" />
+  </url>
+
+  <!-- Service -->
+  <url>
+    <loc>https://www.trumpf.com/service</loc>
+    <lastmod>2026-02-12</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.trumpf.com/de/service" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.trumpf.com/en/service" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.trumpf.com/service" />
+  </url>
+
+  <!-- Unternehmen -->
+  <url>
+    <loc>https://www.trumpf.com/unternehmen</loc>
+    <lastmod>2026-02-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.trumpf.com/de/unternehmen" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.trumpf.com/en/company" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.trumpf.com/unternehmen" />
+  </url>
+
+  <!-- Karriere -->
+  <url>
+    <loc>https://www.trumpf.com/karriere</loc>
+    <lastmod>2026-02-12</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.trumpf.com/de/karriere" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.trumpf.com/en/careers" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.trumpf.com/karriere" />
+  </url>
+
+</urlset>
