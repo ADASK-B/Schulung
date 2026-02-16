@@ -10,7 +10,6 @@ export function Header(): React.JSX.Element {
         <nav aria-label="Main navigation">
           <ul className="header-nav">
             <li><a href="#features">Solutions</a></li>
-            <li><a href="#about">About</a></li>
             <li><a href="#contact">Contact</a></li>
           </ul>
         </nav>
