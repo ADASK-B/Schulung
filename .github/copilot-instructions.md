@@ -6,7 +6,7 @@ This repository is an **AI agent orchestration framework** for web development, 
 
 ```
 .github/
-├── agents/              # Specialized AI agents (12 agents)
+├── agents/              # Specialized AI agents (11 agents)
 │   ├── web-orchestrator.agent.md      # Coordinates all agents
 │   ├── react-specialist.agent.md      # React components & hooks
 │   ├── security-auditor.agent.md      # Security reviews
