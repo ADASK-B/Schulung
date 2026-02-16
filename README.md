@@ -6,7 +6,7 @@ Ein modulares Framework für die Koordination spezialisierter KI-Agents bei komp
 
 Dieses Repository ist **kein Code-Projekt**, sondern ein **Meta-Framework** für AI-Agents. Es enthält:
 
-- **12 spezialisierte Agents** (React, CSS, API, Security, Testing, etc.)
+- **11 spezialisierte Agents** (React, CSS, API, Security, Testing, etc.)
 - **14 wiederverwendbare Skills** (Patterns, Checklisten, Guides)
 - **4 Workflow-Prompts** (Agent erstellen, Skill erstellen, Framework erweitern, Debugging)
 - **2 Instruction-Dateien** (Framework-Regeln, Web-Dev-Standards)
